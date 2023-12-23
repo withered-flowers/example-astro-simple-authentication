@@ -7,7 +7,7 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
 ---
 
 <BaseLayout title="CSR - Astro (Public)">
-  <CenteredContainer transition:persist>
+  <CenteredContainer>
     <form
       class="flex w-10/12 flex-col gap-4 rounded bg-gray-200 p-4 md:w-1/2 xl:w-1/4"
       id="form-login"
@@ -55,6 +55,7 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
 <script>
   // Treat this as a separate file and import it if you want
   import type { LoginFormData, LoginResponse } from "@/definitions/global";
+  import { navigate } from "astro:transitions/client";
 
   const doFormSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
@@ -88,7 +89,9 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
     localStorage.setItem("token", responseJson.data.token);
 
     // Redirect to the protected
-    window.location.href = "/csr/astro/protected";
+    navigate("/csr/astro/protected", {
+      history: "push",
+    });
   };
 
   document

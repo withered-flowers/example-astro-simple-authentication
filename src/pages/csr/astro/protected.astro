@@ -2,14 +2,18 @@
 // This is an CSR Page, so we need to set prerender to true
 export const prerender = true;
 
+import CenteredContainer from "@/components/CenteredContainer.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="CSR - Astro (Protected)">
-  <p>This is the protected routes</p>
+  <CenteredContainer>
+    <p>This is the protected routes</p>
+  </CenteredContainer>
 </BaseLayout>
 
 <script>
+  import { navigate } from "astro:transitions/client";
   /*
     DISCLAIMER:
     Since we're not using any backend handled auth, we need to check if the user is logged in
@@ -18,6 +22,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
   if (!localStorage.getItem("token")) {
     // If the user is not logged in, we redirect them to the login page
-    window.location.href = "/csr/astro/public";
+    navigate("/csr/astro/public", {
+      history: "replace",
+    });
   }
 </script>
