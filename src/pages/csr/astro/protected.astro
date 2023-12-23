@@ -1,0 +1,23 @@
+---
+// This is an CSR Page, so we need to set prerender to true
+export const prerender = true;
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="CSR - Astro (Protected)">
+  <p>This is the protected routes</p>
+</BaseLayout>
+
+<script>
+  /*
+    DISCLAIMER:
+    Since we're not using any backend handled auth, we need to check if the user is logged in
+    The super simple "protection" is to check if the user has a token in the localstorage
+  */
+
+  if (!localStorage.getItem("token")) {
+    // If the user is not logged in, we redirect them to the login page
+    window.location.href = "/csr/astro/public";
+  }
+</script>

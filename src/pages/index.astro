@@ -1,16 +1,17 @@
 ---
-
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CenteredContainer from "@/components/CenteredContainer.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Home Page">
+  <CenteredContainer>
+    <h1 class="text-xl font-semibold">Example Authentication</h1>
+    <section>
+      <a
+        href="/csr/astro/public"
+        class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
+        >Client Side (Astro)</a
+      >
+    </section>
+  </CenteredContainer>
+</BaseLayout>
