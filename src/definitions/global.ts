@@ -18,3 +18,8 @@ export interface LoginResponse {
   statusCode: number;
   data: LoginResponseData;
 }
+
+export interface LoginError {
+  statusCode: number;
+  error: string;
+}

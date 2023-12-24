@@ -51,35 +51,43 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
         </button>
       </section>
     </form>
+    <!-- This will flash the error from the Server Response if exist -->
+    <section class="hidden animate-pulse text-red-400" id="flash-error">
+    </section>
   </CenteredContainer>
 </BaseLayout>
 
 <script>
   // Treat this as a separate file and import it if you want
-  import type { LoginFormData, LoginResponse } from "@/definitions/global";
+  import type {
+    LoginError,
+    LoginFormData,
+    LoginResponse,
+  } from "@/definitions/global";
   import { navigate } from "astro:transitions/client";
 
   const doFormSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
 
-    const email = document.getElementById("email") as HTMLInputElement;
-    const password = document.getElementById("password") as HTMLInputElement;
+    try {
+      const email = document.getElementById("email") as HTMLInputElement;
+      const password = document.getElementById("password") as HTMLInputElement;
 
-    const bodyData: LoginFormData = {
-      email: email.value,
-      password: password.value,
-    };
+      const bodyData: LoginFormData = {
+        email: email.value,
+        password: password.value,
+      };
 
-    const response = await fetch(`/auth-server/api/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bodyData),
-    });
-    const responseJson: LoginResponse = await response.json();
+      const response = await fetch(`/auth-server/api/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bodyData),
+      });
+      const responseJson: LoginResponse & LoginError = await response.json();
 
-    /*
+      /*
       DISCLAIMER: 
       Since we're using a simple JWT Authentication, we're not using any refresh token, so the token will expire in 1 hour.
       
@@ -87,13 +95,25 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
       Then, you can use the refresh token to get a new access token when the access token is expired.
     */
 
-    // Since this is a full CSR Page, and the server is not involved at all for storing credentials, We need to store the token in the localStorage
-    localStorage.setItem("token", responseJson.data.token);
+      // Since this is a full CSR Page, and the server is not involved at all for storing credentials, We need to store the token in the localStorage
+      if (!responseJson.data) {
+        throw new Error(responseJson.error);
+      }
 
-    // Redirect to the protected
-    navigate("/csr/astro/protected", {
-      history: "push",
-    });
+      localStorage.setItem("token", responseJson.data.token);
+
+      // Redirect to the protected
+      navigate("/csr/astro/protected", {
+        history: "push",
+      });
+    } catch (err) {
+      let errorSection = document.getElementById("flash-error") as HTMLElement;
+
+      if (err instanceof Error) {
+        errorSection.innerText = err.message;
+        errorSection.classList.remove("hidden");
+      }
+    }
   };
 
   // Since we're using the ViewTransition, we need to wait until the page is loaded
