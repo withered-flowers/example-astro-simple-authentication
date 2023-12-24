@@ -8,22 +8,51 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
 <BaseLayout title="CSR - Astro (Protected)">
   <CenteredContainer>
-    <p>This is the protected routes</p>
+    <p class="text-xl font-semibold">This is the protected routes</p>
+    <p>This route is protected using <b>localStorage.getItem("token")</b></p>
+    <p>
+      Just see the local storage on your browser and you will have a key named <b
+        >token</b
+      >
+    </p>
+    <p>
+      Try to delete that key and refresh this page, and see what will happen !
+    </p>
+    <p>Remember: you need to enable javascript for this one ~</p>
+    <button
+      id="logout"
+      class="rounded bg-blue-500 px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-blue-700"
+      >Press this to logout</button
+    >
   </CenteredContainer>
 </BaseLayout>
 
 <script>
   import { navigate } from "astro:transitions/client";
-  /*
-    DISCLAIMER:
-    Since we're not using any backend handled auth, we need to check if the user is logged in
-    The super simple "protection" is to check if the user has a token in the localstorage
-  */
 
+  /*
+      DISCLAIMER:
+      Since we're not using any backend handled auth, we need to check if the user is logged in
+      The super simple "protection" is to check if the user has a token in the localstorage
+    */
   if (!localStorage.getItem("token")) {
     // If the user is not logged in, we redirect them to the login page
     navigate("/csr/astro/public", {
       history: "replace",
     });
   }
+
+  // Since we're using the ViewTransitions, we need to wait until the page is loaded
+  document.addEventListener("astro:page-load", async () => {
+    // Logout button
+    document.getElementById("logout")?.addEventListener("click", async () => {
+      // Remove the token from the localstorage
+      localStorage.removeItem("token");
+
+      // Redirect the user to the login page
+      navigate("/csr/astro/public", {
+        history: "replace",
+      });
+    });
+  });
 </script>

@@ -19,6 +19,7 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
         id="email"
         name="email"
         class="rounded px-4 py-2"
+        placeholder="admin@mail.com"
         required
         aria-required="true"
       />
@@ -28,6 +29,7 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
         type="password"
         id="password"
         name="password"
+        placeholder="administrator"
         class="rounded px-4 py-2"
         minlength="8"
         required
@@ -94,7 +96,10 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
     });
   };
 
-  document
-    .getElementById("form-login")
-    ?.addEventListener("submit", doFormSubmit);
+  // Since we're using the ViewTransition, we need to wait until the page is loaded
+  document.addEventListener("astro:page-load", () => {
+    document
+      .getElementById("form-login")
+      ?.addEventListener("submit", doFormSubmit);
+  });
 </script>
