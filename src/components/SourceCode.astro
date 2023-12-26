@@ -1,0 +1,21 @@
+---
+import Github from "@/icons/github.svg";
+
+interface Props {
+  href?: string;
+}
+
+const { href = "#" } = Astro.props;
+const githubHref =
+  "https://github.com/withered-flowers/example-astro-simple-authentication/tree/main" +
+  href;
+---
+
+<a
+  href={githubHref}
+  class="flex items-center justify-center gap-2 rounded bg-slate-200 px-4 py-2 font-bold text-slate-700 transition-colors duration-300 hover:bg-slate-700 hover:text-slate-100"
+  role="button"
+  aria-roledescription="button"
+>
+  <span><img src={Github.src} class="size-8" /></span>See Source Code</a
+>

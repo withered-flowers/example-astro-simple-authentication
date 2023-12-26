@@ -9,6 +9,10 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
 
 <BaseLayout title="CSR - React (Public)">
   <CenteredContainer>
+    <p class="w-10/12 text-balance text-center font-semibold md:w-1/2 xl:w-1/4">
+      This is just a simple Login Page which made using React, will share state
+      with Vue and Svelte
+    </p>
     <!-- Since we want to hydrate the React and using React's Javascript, we need to declare hydration using client:* -->
     <ReactLoginPage client:load />
     <a

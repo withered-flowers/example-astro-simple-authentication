@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import CenteredContainer from "@/components/CenteredContainer.astro";
+import SourceCode from "@/components/SourceCode.astro";
 ---
 
 <BaseLayout title="Home Page">
@@ -42,6 +43,9 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
         class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
         >Server Side (Astro)</a
       >
+    </section>
+    <section>
+      <SourceCode />
     </section>
   </CenteredContainer>
 </BaseLayout>

@@ -24,10 +24,13 @@
   });
 </script>
 
-<p class="text-xl font-semibold">This is the protected routes</p>
+<p class="text-xl font-semibold">
+  This is the protected routes, made with Svelte
+</p>
 <p>
   This route is protected using ONLY a nanostore "shared-state" named
-  <b>isLoggedIn</b>
+  <b>isLoggedIn</b>, and shared between the Login Page made with React and Vue +
+  This Page (Svelte)
 </p>
 <p>Since the state will be reverted on refresh (we're not persisting it) ...</p>
 <p>Try to refresh this page, and see what will happen !</p>

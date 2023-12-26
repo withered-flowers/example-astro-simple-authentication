@@ -9,6 +9,10 @@ import VueLoginPage from "@/pages/csr/shared/_login-vue.vue";
 
 <BaseLayout title="CSR - Vue (Public)">
   <CenteredContainer>
+    <p class="w-10/12 text-balance text-center font-semibold md:w-1/2 xl:w-1/4">
+      This is just a simple Login Page which made using Vue, will share state
+      with React and Svelte
+    </p>
     <!-- Since we want to hydrate the React and using React's Javascript, we need to declare hydration using client:* -->
     <VueLoginPage client:load />
     <a
