@@ -78,7 +78,7 @@ const handleSubmit = async () => {
 <template>
   <form
     class="flex w-10/12 flex-col gap-4 rounded bg-gray-200 p-4 md:w-1/2 xl:w-1/4"
-    id="form-login"
+    id="form-login-vue-csr"
     v-on:submit.prevent="handleSubmit"
   >
     <p class="text-xl font-semibold">Login (CSR - Vue)</p>

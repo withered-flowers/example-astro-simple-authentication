@@ -20,7 +20,7 @@
 <p>Press the button below to "gracefully logout" from here</p>
 
 <button
-  id="logout"
+  id="logout-svelte-ssr"
   class="rounded bg-blue-500 px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-blue-700"
   on:click={buttonClick}>Press this to logout</button
 >

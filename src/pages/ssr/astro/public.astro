@@ -103,7 +103,7 @@ if (Astro.cookies.get("cookie-token")) {
     -->
     <form
       class="flex w-10/12 flex-col gap-4 rounded bg-gray-200 p-4 md:w-1/2 xl:w-1/4"
-      id="form-login"
+      id="form-login-astro-ssr"
       method="POST"
     >
       <p class="text-xl font-semibold">Login (SSR - Astro)</p>
@@ -133,7 +133,7 @@ if (Astro.cookies.get("cookie-token")) {
       <section class="flex w-full justify-between">
         <button
           type="submit"
-          class="rounded bg-black px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-white hover:text-black"
+          class="rounded bg-white px-4 py-2 font-bold text-black transition-colors duration-300 hover:bg-black hover:text-white"
         >
           Sign In
         </button>
@@ -153,5 +153,12 @@ if (Astro.cookies.get("cookie-token")) {
         </section>
       )
     }
+    <section>
+      <a
+        href="/"
+        class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
+        >Back to home</a
+      >
+    </section>
   </CenteredContainer>
 </BaseLayout>

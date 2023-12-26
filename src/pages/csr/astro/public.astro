@@ -145,4 +145,10 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
       .getElementById("form-login")
       ?.addEventListener("submit", doFormSubmit);
   });
+
+  document.addEventListener("astro:before-swap", () => {
+    document
+      .getElementById("form-login")
+      ?.removeEventListener("submit", doFormSubmit);
+  });
 </script>

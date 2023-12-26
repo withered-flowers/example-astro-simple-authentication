@@ -23,9 +23,9 @@ if (Astro.request.method === "POST") {
 
 <BaseLayout title="SSR - Astro (Protected)">
   <CenteredContainer>
-    <h1>SSR - Astro (Protected)</h1>
+    <p class="text-xl font-semibold">This is the protected routes</p>
     <p>
-      This page is rendered on the server and by a cookie named <b
+      This page is rendered on the server and protected by a cookie named <b
         >cookie-token</b
       >
     </p>
@@ -41,11 +41,16 @@ if (Astro.request.method === "POST") {
     </p>
     <p>You can try to refresh the page and see if you are still logged in.</p>
 
+    <p>
+      Try to delete that cookie and refresh this page, and see what will happen
+      !
+    </p>
+
     <p>If you're done, press the button below to logout</p>
     <form method="POST">
       <button
         type="submit"
-        id="logout"
+        id="logout-astro-ssr"
         class="rounded bg-blue-500 px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-blue-700"
         >Press this to logout</button
       >

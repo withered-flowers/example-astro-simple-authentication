@@ -94,7 +94,7 @@ const Page = () => {
     <>
       <form
         className="flex w-10/12 flex-col gap-4 rounded bg-gray-200 p-4 md:w-1/2 xl:w-1/4"
-        id="form-login"
+        id="form-login-react-csr"
         onSubmit={handleSubmit}
         ref={formRef}
       >

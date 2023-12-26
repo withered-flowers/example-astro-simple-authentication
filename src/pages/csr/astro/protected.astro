@@ -30,6 +30,16 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 <script>
   import { navigate } from "astro:transitions/client";
 
+  const doLogout = async () => {
+    // Remove the token from the localstorage
+    localStorage.removeItem("token");
+
+    // Redirect the user to the login page
+    navigate("/csr/astro/public", {
+      history: "replace",
+    });
+  };
+
   /*
       DISCLAIMER:
       Since we're not using any backend handled auth, we need to check if the user is logged in
@@ -45,14 +55,11 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   // Since we're using the ViewTransitions, we need to wait until the page is loaded
   document.addEventListener("astro:page-load", async () => {
     // Logout button
-    document.getElementById("logout")?.addEventListener("click", async () => {
-      // Remove the token from the localstorage
-      localStorage.removeItem("token");
+    document.getElementById("logout")?.addEventListener("click", doLogout);
+  });
 
-      // Redirect the user to the login page
-      navigate("/csr/astro/public", {
-        history: "replace",
-      });
-    });
+  document.addEventListener("astro:before-swap", () => {
+    // Remove the event listener when the page is unloaded
+    document.getElementById("logout")?.removeEventListener("click", doLogout);
   });
 </script>
