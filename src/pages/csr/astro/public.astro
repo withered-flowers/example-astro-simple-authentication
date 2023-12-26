@@ -8,6 +8,10 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
 
 <BaseLayout title="CSR - Astro (Public)">
   <CenteredContainer>
+    <p class="w-10/12 text-balance text-center font-semibold md:w-1/2 xl:w-1/4">
+      This is just a simple Login Page which made using Astro (and a little bit
+      of javascript)
+    </p>
     <form
       class="flex w-10/12 flex-col gap-4 rounded bg-gray-200 p-4 md:w-1/2 xl:w-1/4"
       id="form-login"
@@ -88,12 +92,12 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
       const responseJson: LoginResponse & LoginError = await response.json();
 
       /*
-      DISCLAIMER: 
-      Since we're using a simple JWT Authentication, we're not using any refresh token, so the token will expire in 1 hour.
-      
-      If you want to use a refresh token, you can use the same approach as the SSR Page, but you need to store the refresh token in the localStorage.
-      Then, you can use the refresh token to get a new access token when the access token is expired.
-    */
+        DISCLAIMER: 
+        Since we're using a simple JWT Authentication, we're not using any refresh token, so the token will expire in 1 hour.
+        
+        If you want to use a refresh token, you can use the same approach as the SSR Page, but you need to store the refresh token in the localStorage.
+        Then, you can use the refresh token to get a new access token when the access token is expired.
+      */
 
       // Since this is a full CSR Page, and the server is not involved at all for storing credentials, We need to store the token in the localStorage
       if (!responseJson.data) {
@@ -115,6 +119,18 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
       }
     }
   };
+
+  /*
+    DISCLAIMER:
+    Since we're not using any backend handled auth, we need to check if the user is logged in
+    The super simple "protection" is to check if the user has a token in the localstorage
+  */
+  if (localStorage.getItem("token")) {
+    // If the user is logged in, we redirect them to the protected home page
+    navigate("/csr/astro/protected", {
+      history: "replace",
+    });
+  }
 
   // Since we're using the ViewTransition, we need to wait until the page is loaded
   document.addEventListener("astro:page-load", () => {

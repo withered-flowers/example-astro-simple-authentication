@@ -1,0 +1,14 @@
+---
+// This is an CSR Page, so we need to set prerender to true
+export const prerender = true;
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CenteredContainer from "@/components/CenteredContainer.astro";
+import SvelteProtectedPage from "@/pages/csr/shared/_protected-svelte.svelte";
+---
+
+<BaseLayout title="CSR - Svelte (Protected">
+  <CenteredContainer>
+    <SvelteProtectedPage client:load />
+  </CenteredContainer>
+</BaseLayout>

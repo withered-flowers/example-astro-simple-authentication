@@ -1,0 +1,15 @@
+---
+// This is an CSR Page, so we need to set prerender to true
+export const prerender = true;
+
+import ReactLoginPage from "@/pages/csr/shared/_login-react.tsx";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CenteredContainer from "@/components/CenteredContainer.astro";
+---
+
+<BaseLayout title="CSR - React (Public)">
+  <CenteredContainer>
+    <!-- Since we want to hydrate the React and using React's Javascript, we need to declare hydration using client:* -->
+    <ReactLoginPage client:load />
+  </CenteredContainer>
+</BaseLayout>
