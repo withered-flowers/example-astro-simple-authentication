@@ -1,0 +1,61 @@
+---
+// This is an SSR Page, so we need to set prerender to false
+export const prerender = false;
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CenteredContainer from "@/components/CenteredContainer.astro";
+
+if (!Astro.cookies.get("cookie-token")) {
+  // Since we cannot use / store data (window is undefined, since we're on the SSR)
+  // We can only give "data" via URL Search Params;
+  return Astro.redirect(
+    `/ssr/astro/public?${new URLSearchParams({
+      error: "You are not logged in",
+    })}`,
+  );
+}
+
+if (Astro.request.method === "POST") {
+  Astro.cookies.delete("cookie-token");
+  return Astro.redirect("/ssr/astro/public");
+}
+---
+
+<BaseLayout title="SSR - Astro (Protected)">
+  <CenteredContainer>
+    <h1>SSR - Astro (Protected)</h1>
+    <p>
+      This page is rendered on the server and by a cookie named <b
+        >cookie-token</b
+      >
+    </p>
+    <!-- 
+      Standard HTML Lesson: 
+      - If we have an "action" that need to interact with the server, we need to use a form
+      - button needs to be inside the form to submit the form
+    -->
+    <p>
+      Go check the storage cookies and you will find a cookie named <b
+        >cookie-token</b
+      >
+    </p>
+    <p>You can try to refresh the page and see if you are still logged in.</p>
+
+    <p>If you're done, press the button below to logout</p>
+    <form method="POST">
+      <button
+        type="submit"
+        id="logout"
+        class="rounded bg-blue-500 px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-blue-700"
+        >Press this to logout</button
+      >
+    </form>
+    <section>
+      <a
+        href="/"
+        class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
+        >Back to home</a
+      >
+    </section>
+  </CenteredContainer>
+</BaseLayout>

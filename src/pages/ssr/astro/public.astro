@@ -1,0 +1,157 @@
+---
+// This is an SSR Page, so we need to set prerender to false
+export const prerender = false;
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import CenteredContainer from "@/components/CenteredContainer.astro";
+import type { LoginPayload } from "@/definitions/global";
+import { signPayload } from "@/lib/jwt";
+import { ERR_INVALID_CREDS_MSG } from "@/lib/error-creator";
+
+// Now we will declare the variables that we will use here
+let isError: boolean = false;
+let errorMessage: string = "";
+
+// Since we're using the Server Side,
+// We need to process the form submission INSIDE the fence (---) here
+// AND handle the POST here
+if (Astro.request.method === "POST") {
+  /*
+    Standard HTML Lesson:
+    - Method GET for search
+    - Method POST for form submission
+    - if form action is not defined, it will submit to the current page
+    - We can extract the data from the form submission using FormData
+  */
+  try {
+    // Get the form data
+    const formData = await Astro.request.formData();
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    // We can do the validation here
+    if (!email || !password) {
+      throw new Error("Email and Password are required");
+    }
+
+    // Since we're using the Server Side,
+    // We can directly call the API / Use the database here
+    // The logic below is assuming we're using the database directly here
+    if (email === "admin@mail.com" && password === "administrator") {
+      const payload: LoginPayload = {
+        email,
+        date: new Date(),
+      };
+
+      // Create a JWT token
+      const token = await signPayload(payload);
+
+      // We will set the token inside the cookies here
+      Astro.cookies.set("cookie-token", token, {
+        // We can set the cookie to expire in 1 day
+        expires: new Date(Date.now() + 60 * 60 * 24000 * 1),
+        // sameSite: strict means the cookie will only be sent to the same domain
+        sameSite: "strict",
+        // httpOnly means the cookie will not be accessible from the client side
+        httpOnly: true,
+        // secure means the cookie will only be sent over HTTPS
+        // Since we're using localhost, we will comment this out
+        // secure: true,
+      });
+
+      return Astro.redirect("/ssr/astro/protected");
+    } else {
+      throw new Error(ERR_INVALID_CREDS_MSG);
+    }
+  } catch (err) {
+    isError = true;
+
+    if (err instanceof Error) {
+      errorMessage = err.message;
+    }
+  }
+}
+
+const searchParams = new URLSearchParams(Astro.request.url.split("?")[1]);
+
+if (searchParams.get("error")) {
+  isError = true;
+  errorMessage = searchParams.get("error") as string;
+}
+
+if (Astro.cookies.get("cookie-token")) {
+  return Astro.redirect("/ssr/astro/protected");
+}
+---
+
+<BaseLayout title="SSR - Astro (Public)">
+  <CenteredContainer>
+    <p class="w-10/12 text-balance text-center font-semibold md:w-1/2 xl:w-1/4">
+      This is just a simple Login Page which made using Astro (SSR)
+    </p>
+    <p
+      class="w-10/12 animate-pulse text-balance text-center font-semibold md:w-1/2 xl:w-1/4"
+    >
+      You can disable Javascript and the form will still work
+    </p>
+    <!-- 
+      Since we're using ViewTransitions here
+      The form will always be "emptied" if there is an error 
+
+      If we don't want to "empty" the form, 
+      We can use the "transition:persist" attribute on the form
+    -->
+    <form
+      class="flex w-10/12 flex-col gap-4 rounded bg-gray-200 p-4 md:w-1/2 xl:w-1/4"
+      id="form-login"
+      method="POST"
+    >
+      <p class="text-xl font-semibold">Login (SSR - Astro)</p>
+      <label for="email" class="w-full">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="rounded px-4 py-2"
+        placeholder="admin@mail.com"
+        required
+        aria-required="true"
+      />
+
+      <label for="password" class="w-full">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="administrator"
+        class="rounded px-4 py-2"
+        minlength="8"
+        required
+        aria-required="true"
+      />
+
+      <section class="flex w-full justify-between">
+        <button
+          type="submit"
+          class="rounded bg-black px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-white hover:text-black"
+        >
+          Sign In
+        </button>
+        <button
+          disabled
+          class="rounded bg-blue-500 px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-red-400 disabled:opacity-50"
+        >
+          Register
+        </button>
+      </section>
+    </form>
+    <!-- This will flash the error from the Server Response if exist -->
+    {
+      isError && (
+        <section class="animate-pulse text-red-400" id="flash-error">
+          {errorMessage}
+        </section>
+      )
+    }
+  </CenteredContainer>
+</BaseLayout>
