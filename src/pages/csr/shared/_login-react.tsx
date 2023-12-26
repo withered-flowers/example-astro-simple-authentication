@@ -10,7 +10,7 @@ import type {
 import { isLoggedIn } from "@/pages/csr/shared/stores/_login-store";
 import { useStore } from "@nanostores/react";
 import { navigate } from "astro:transitions/client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Page = () => {
   // Based on nanostores documentation, we can use the useStore hook to get the value of the "atom" (in this case, isLoggedIn)
@@ -19,6 +19,13 @@ const Page = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+
+  useEffect(() => {
+    // If the user is already logged in, navigate to the protected page
+    if ($isLoggedIn) {
+      navigate("/csr/shared/protected-svelte");
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,7 +75,7 @@ const Page = () => {
         - Store the token in the localStorage
         - Set the isLoggedIn "atom" in the nanostore to true
       */
-      localStorage.setItem("token", responseJson.data.token);
+      localStorage.setItem("shared-token", responseJson.data.token);
       // ! Be careful !
       // ! We're calling the "atom.set($atomValue)", not the "$atomValue.set($atomValue)" here !
       isLoggedIn.set(!$isLoggedIn);

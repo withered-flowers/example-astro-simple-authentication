@@ -43,7 +43,7 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
       <section class="flex w-full justify-between">
         <button
           type="submit"
-          class="rounded bg-blue-500 px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-blue-700"
+          class="rounded bg-black px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-white hover:text-black"
         >
           Sign In
         </button>
@@ -57,6 +57,13 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
     </form>
     <!-- This will flash the error from the Server Response if exist -->
     <section class="hidden animate-pulse text-red-400" id="flash-error">
+    </section>
+    <section>
+      <a
+        href="/"
+        class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
+        >Back to home</a
+      >
     </section>
   </CenteredContainer>
 </BaseLayout>

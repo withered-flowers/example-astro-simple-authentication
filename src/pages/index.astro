@@ -14,11 +14,33 @@ import CenteredContainer from "@/components/CenteredContainer.astro";
       If you have already using third party authentication (AuthKit, Auth0,
       etc), don't use this example
     </p>
-    <section>
+    <section class="flex gap-2">
+      <p>SINGLE:</p>
       <a
         href="/csr/astro/public"
         class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
         >Client Side (Astro)</a
+      >
+    </section>
+    <section class="flex gap-2">
+      <p>SHARED STATE:</p>
+      <a
+        href="/csr/shared/public-react"
+        class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
+        >Client Side - Sharing Stores (React)</a
+      >
+      <a
+        href="/csr/shared/public-vue"
+        class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
+        >Client Side - Sharing Stores (Vue)</a
+      >
+    </section>
+    <section class="flex gap-2">
+      <p>NO JS:</p>
+      <a
+        href="/ssr/astro/public"
+        class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
+        >Server Side (Astro)</a
       >
     </section>
   </CenteredContainer>

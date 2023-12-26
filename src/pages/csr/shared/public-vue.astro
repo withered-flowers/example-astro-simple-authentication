@@ -2,15 +2,15 @@
 // This is an CSR Page, so we need to set prerender to true
 export const prerender = true;
 
-import ReactLoginPage from "@/pages/csr/shared/_login-react.tsx";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import CenteredContainer from "@/components/CenteredContainer.astro";
+import VueLoginPage from "@/pages/csr/shared/_login-vue.vue";
 ---
 
-<BaseLayout title="CSR - React (Public)">
+<BaseLayout title="CSR - Vue (Public)">
   <CenteredContainer>
     <!-- Since we want to hydrate the React and using React's Javascript, we need to declare hydration using client:* -->
-    <ReactLoginPage client:load />
+    <VueLoginPage client:load />
     <a
       href="/"
       class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"

@@ -5,10 +5,21 @@ export const prerender = true;
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import CenteredContainer from "@/components/CenteredContainer.astro";
 import SvelteProtectedPage from "@/pages/csr/shared/_protected-svelte.svelte";
+import SvelteProtectedPageBottom from "@/pages/csr/shared/_protected-svelte-bottom.svelte";
 ---
 
 <BaseLayout title="CSR - Svelte (Protected">
   <CenteredContainer>
+    <!-- Since we want to hydrate the React and using React's Javascript, we need to declare hydration using client:* -->
     <SvelteProtectedPage client:load />
+    <p>
+      Try to Back to home and then go to Login Page (Vue) or Login Page (React)
+    </p>
+    <a
+      href="/"
+      class="text-blue-400 underline underline-offset-4 transition-colors duration-300 hover:text-blue-700"
+      >Back to home</a
+    >
+    <SvelteProtectedPageBottom client:load />
   </CenteredContainer>
 </BaseLayout>
