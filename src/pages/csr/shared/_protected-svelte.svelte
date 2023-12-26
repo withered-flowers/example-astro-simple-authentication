@@ -7,7 +7,13 @@
   import { navigate } from "astro:transitions/client";
   import { onMount } from "svelte";
 
+  // !! IMPORTANT NOTE !!
   onMount(() => {
+    /*
+      This is NOT the best way to do this, especially on production.
+
+      If you're using in production, the simplest way is you should always use the token to check if the user is logged in or not, not via the state !
+    */
     if (!isLoggedIn.value) {
       // If not logged in, clear token and redirect to login page
       localStorage.clear();
